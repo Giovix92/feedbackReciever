@@ -20,7 +20,13 @@ app.post('/send', async(req, res) =>{
         "email" : req.body.email,
         "message" : req.body.message
     });
-    await message.save().catch(err => res.status(501).send('DB OFFLINE'))
+
+    await message.save().then(()=>{
+        res.sendStatus(200)
+    })
+    .catch(err=>{
+        console.error(err)
+    })
 })
 
 app.get('/messages', async(req, res) =>{
