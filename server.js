@@ -12,7 +12,13 @@ const log = (req, res, next)=>{
     console.log(req.url);
     next();
 }
+
+const allowCrossOrigin = (req, res, next)=>{
+    res.header('Access-Control-Allow-Origin', "*")
+    next();
+}
 app.use(log)
+app.use(allowCrossOrigin)
 
 app.post('/send', async(req, res) =>{
     const message = new msgModel({
@@ -22,6 +28,7 @@ app.post('/send', async(req, res) =>{
     });
 
     await message.save().then(()=>{
+
         res.sendStatus(200)
     })
     .catch(err=>{
